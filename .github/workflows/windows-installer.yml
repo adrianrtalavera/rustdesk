@@ -1,0 +1,22 @@
+name: Build Windows Installer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        override: true
+    - name: Build exe
+      run: cargo build --release
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: rustdesk-windows
+        path: target/release/rustdesk.exe
